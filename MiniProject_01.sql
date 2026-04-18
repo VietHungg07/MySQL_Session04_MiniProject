@@ -1,54 +1,54 @@
-CREATE DATABASE ONLINE_LEARNING_SYSTEM;
-USE ONLINE_LEARNING_SYSTEM;
+CREATE DATABASE learning_system;
+USE learning_system;
 
 -- bang student
-CREATE TABLE STUDENT (
-    STUDENT_ID INT AUTO_INCREMENT PRIMARY KEY,
-    STUDENT_FULLNAME VARCHAR(100) NOT NULL,
-    STUDENT_DATEBIRTH DATE,
-    STUDENT_EMAIL VARCHAR(255) UNIQUE
+CREATE TABLE student (
+    student_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_fullname VARCHAR(100) NOT NULL,
+    student_datebirth DATE,
+    student_email VARCHAR(255) UNIQUE
 );
 
 -- bang teacher
-CREATE TABLE TEACHER (
-    TEACHER_ID INT AUTO_INCREMENT PRIMARY KEY,
-    TEACHER_FULLNAME VARCHAR(100) NOT NULL,
-    TEACHER_EMAIL VARCHAR(255) UNIQUE
+CREATE TABLE teacher (
+    teacher_id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_fullname VARCHAR(100) NOT NULL,
+    teacher_email VARCHAR(255) UNIQUE
 );
 
 -- bang khoa hoc
-CREATE TABLE COURSE (
-    COURSE_ID INT AUTO_INCREMENT PRIMARY KEY,
-    COURSENAME VARCHAR(150) NOT NULL,
-    COURSE_DESCRIPTION TEXT,
-    NUMBER_OF_SESSIONS INT CHECK (NUMBER_OF_SESSIONS > 0),
-    TEACHER_ID INT NOT NULL,
-    FOREIGN KEY (TEACHER_ID) REFERENCES TEACHER(TEACHER_ID)
+CREATE TABLE course (
+    course_id INT AUTO_INCREMENT PRIMARY KEY,
+    coursename VARCHAR(150) NOT NULL,
+    course_description TEXT,
+    number_of_sessions INT CHECK (number_of_sessions > 0),
+    teacher_id INT NOT NULL,
+    FOREIGN KEY (teacher_id) REFERENCES teacher(teacher_id)
 );
 
 -- bang dang ky
-CREATE TABLE ENROLLMENT (
-    STUDENT_ID INT NOT NULL,
-    COURSE_ID INT NOT NULL,
-    ENROLL_DATE DATE DEFAULT  CURRENT_TIMESTAMP,
-    PRIMARY KEY (STUDENT_ID, COURSE_ID),
-    FOREIGN KEY (STUDENT_ID) REFERENCES STUDENT(STUDENT_ID),
-    FOREIGN KEY (COURSE_ID) REFERENCES COURSE(COURSE_ID)
+CREATE TABLE enrollment (
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    enroll_date DATE DEFAULT CURRENT_DATE,
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES student(student_id),
+    FOREIGN KEY (course_id) REFERENCES course(course_id)
 );
 
 -- bang ket qua
-CREATE TABLE SCORE (
-    STUDENT_ID INT NOT NULL,
-    COURSE_ID INT NOT NULL,
-    MIDSCORE DECIMAL(4,2) CHECK(MIDSCORE >= 0 AND MIDSCORE <= 10),
-    ENDSCORE DECIMAL(4,2) CHECK(ENDSCORE >= 0 AND ENDSCORE <= 10),
-    PRIMARY KEY (STUDENT_ID, COURSE_ID),
-    FOREIGN KEY (STUDENT_ID) REFERENCES STUDENT(STUDENT_ID),
-    FOREIGN KEY (COURSE_ID) REFERENCES COURSE(COURSE_ID)
+CREATE TABLE score (
+    student_id INT NOT NULL,
+    course_id INT NOT NULL,
+    midscore DECIMAL(4,2) CHECK(midscore >= 0 AND midscore <= 10),
+    endscore DECIMAL(4,2) CHECK(endscore >= 0 AND endscore <= 10),
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES student(student_id),
+    FOREIGN KEY (course_id) REFERENCES course(course_id)
 );
 
 -- add sv
-INSERT INTO STUDENT(STUDENT_FULLNAME, STUDENT_DATEBIRTH, STUDENT_EMAIL)
+INSERT INTO student(student_fullname, student_datebirth, student_email)
 VALUES
 ('TRAN MINH QUANG', '2002-03-01', 'quang@gmail.com'),
 ('LE THI HOA', '2001-06-12', 'hoa@gmail.com'),
@@ -57,7 +57,7 @@ VALUES
 ('HOANG ANH TUAN', '2002-07-17', 'tuan@gmail.com');
 
 -- add gv
-INSERT INTO TEACHER (TEACHER_FULLNAME, TEACHER_EMAIL)
+INSERT INTO teacher (teacher_fullname, teacher_email)
 VALUES
 ('NGUYEN VAN BINH', 'binh@gmail.com'),
 ('TRAN THI HANG', 'hang@gmail.com'),
@@ -66,7 +66,7 @@ VALUES
 ('HOANG VAN DUC', 'duc@gmail.com');
 
 -- add khóa hoc
-INSERT INTO COURSE (COURSENAME, COURSE_DESCRIPTION, NUMBER_OF_SESSIONS, TEACHER_ID)
+INSERT INTO course (coursename, course_description, number_of_sessions, teacher_id)
 VALUES
 ('MYSQL CO BAN', 'HOC CO BAN VE MYSQL', 20, 1),
 ('JAVASCRIPT CO BAN', 'LAP TRINH JS TU CO BAN', 22, 2),
@@ -75,7 +75,7 @@ VALUES
 ('REACTJS FRONTEND', 'XAY DUNG WEB VOI REACT', 18, 5);
 
 -- dang ky
-INSERT INTO ENROLLMENT (STUDENT_ID, COURSE_ID)
+INSERT INTO enrollment (student_id, course_id)
 VALUES
 (1,2),
 (2,3),
@@ -84,7 +84,7 @@ VALUES
 (5,1);
 
 -- diem
-INSERT INTO SCORE (STUDENT_ID, COURSE_ID, MIDSCORE, ENDSCORE)
+INSERT INTO score (student_id, course_id, midscore, endscore)
 VALUES
 (1,2,7.5,8.0),
 (2,3,9.0,9.5),
@@ -93,28 +93,28 @@ VALUES
 (5,1,5.5,6.25);
 
 -- cap nhat
-UPDATE STUDENT
-SET STUDENT_EMAIL = 'updated@gmail.com'
-WHERE STUDENT_ID = 3;
+UPDATE student
+SET student_email = 'updated@gmail.com'
+WHERE student_id = 3;
 
-UPDATE COURSE
-SET COURSE_DESCRIPTION = 'KHOA HOC CAP NHAT'
-WHERE COURSE_ID = 5;
+UPDATE course
+SET course_description = 'KHOA HOC CAP NHAT'
+WHERE course_id = 5;
 
-UPDATE SCORE
-SET ENDSCORE = 10
-WHERE STUDENT_ID = 1 AND COURSE_ID = 2;
+UPDATE score
+SET endscore = 10
+WHERE student_id = 1 AND course_id = 2;
 
 -- xoa
-DELETE FROM ENROLLMENT
-WHERE STUDENT_ID = 5 AND COURSE_ID = 1;
+DELETE FROM enrollment
+WHERE student_id = 5 AND course_id = 1;
 
-DELETE FROM SCORE
-WHERE STUDENT_ID = 3 AND COURSE_ID = 4;
+DELETE FROM score
+WHERE student_id = 3 AND course_id = 4;
 
 -- truy van
-SELECT * FROM STUDENT;
-SELECT * FROM TEACHER;
-SELECT * FROM COURSE;
-SELECT * FROM ENROLLMENT;
-SELECT * FROM SCORE;
+SELECT * FROM student;
+SELECT * FROM teacher;
+SELECT * FROM course;
+SELECT * FROM enrollment;
+SELECT * FROM score;

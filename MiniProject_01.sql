@@ -30,7 +30,7 @@ CREATE TABLE course (
 CREATE TABLE enrollment (
     student_id INT NOT NULL,
     course_id INT NOT NULL,
-    enroll_date DATE DEFAULT CURRENT_DATE,
+    enroll_date DATE DEFAULT (CURRENT_DATE),
     PRIMARY KEY (student_id, course_id),
     FOREIGN KEY (student_id) REFERENCES student(student_id),
     FOREIGN KEY (course_id) REFERENCES course(course_id)
